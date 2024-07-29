@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Registration Form</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f3f3f3;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+                
+        }
+
+        .main {
+            background-color: #fff;
+            border-radius: 15px;
+            box-shadow: 0 0 20px #555555;
+            padding: 20px;
+            width: 600px;
+        }
+
+        .main h2 {
+            color: #06960b;
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            color: hwb(60 20% 66%);
+            font-weight: bold;
+        }
+
+        input[type="text"],
+        input[type="email"],
+        input[type="password"],
+        select {
+            width: 100%;
+            margin-bottom: 15px;
+            padding: 10px;
+            box-sizing: border-box;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+
+        button[type="submit"] {
+            padding: 15px;
+            border-radius: 10px;
+            border: none;
+            background-color: #263a4e;
+            color: white;
+            cursor: pointer;
+            width: 100%;
+            font-size: 16px;
+        }
+
+        .error {
+            color: red;
+            font-size: 12px;
+            margin-top: -10px;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="main">
+        <h2>Registration Form</h2>
+        <form id="registrationForm">
+            <label for="first">First Name:</label>
+            <input type="text" id="first" name="first" required />
+            <div id="firstError" class="error"></div>
+
+            <label for="last">Last Name:</label>
+            <input type="text" id="last" name="last" required />
+            <div id="lastError" class="error"></div>
+
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" required />
+            <div id="emailError" class="error"></div>
+
+            <label for="password">Password:</label>
+            <input
+                type="password"
+                id="password"
+                name="password"
+                pattern="^(?=.*\d)(?=.*[a-zA-Z])(?=.*[^a-zA-Z0-9])\S{8,}$"
+                title="Password must contain at least one number, one alphabet, one symbol, and be at least 8 characters long"
+                required
+            />
+            <div id="passwordError" class="error"></div>
+
+            <label for="repassword">Re-type Password:</label>
+            <input type="password" id="repassword" name="repassword" required />
+            <div id="repasswordError" class="error"></div>
+
+            <label for="mobile">Contact:</label>
+            <input type="text" id="mobile" name="mobile" maxlength="10" required />
+            <div id="mobileError" class="error"></div>
+
+            <label for="gender">Gender:</label>
+            <select id="gender" name="gender" required>
+                <option value="">Select</option>
+                <option value="male">Male</option>
+                <option value="female">Female</option>
+                <option value="other">Other</option>
+            </select>
+            <div id="genderError" class="error"></div>
+
+            <button type="submit">Submit</button>
+        </form>
+    </div>
+
+    <script>
+        document.getElementById('registrationForm').addEventListener('submit', function(event) {
+         
+            event.preventDefault();
+
+            const errors = document.querySelectorAll('.error');
+            errors.forEach(error => error.textContent = '');
+
+        
+            let isValid = true;
+
+          
+            const first = document.getElementById('first').value.trim();
+            if (first === '') {
+                document.getElementById('firstError').textContent = 'First name is required.';
+                isValid = false;
+            }
+
+            const last = document.getElementById('last').value.trim();
+            if (last === '') {
+                document.getElementById('lastError').textContent = 'Last name is required.';
+                isValid = false;
+            }
+
+            // Email Validation
+            const email = document.getElementById('email').value.trim();
+            if (email === '') {
+                document.getElementById('emailError').textContent = 'Email is required.';
+                isValid = false;
+            } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+                document.getElementById('emailError').textContent = 'Invalid email address.';
+                isValid = false;
+            }
+
+            
+            const password = document.getElementById('password').value;
+            if (password === '') {
+                document.getElementById('passwordError').textContent = 'Password is required.';
+                isValid = false;
+            } else if (!/^(?=.*\d)(?=.*[a-zA-Z])(?=.*[^a-zA-Z0-9])\S{8,}$/.test(password)) {
+                document.getElementById('passwordError').textContent = 'Password must contain at least one number, one alphabet, one symbol, and be at least 8 characters long.';
+                isValid = false;
+            }
+
+            const repassword = document.getElementById('repassword').value;
+            if (repassword !== password) {
+                document.getElementById('repasswordError').textContent = 'Passwords do not match.';
+                isValid = false;
+            }
+
+          
+            const mobile = document.getElementById('mobile').value.trim();
+            if (mobile === '') {
+                document.getElementById('mobileError').textContent = 'Contact number is required.';
+                isValid = false;
+            } else if (!/^\d{10}$/.test(mobile)) {
+                document.getElementById('mobileError').textContent = 'Contact number must be 10 digits long.';
+                isValid = false;
+            }
+
+         
+            const gender = document.getElementById('gender').value;
+            if (gender === '') {
+                document.getElementById('genderError').textContent = 'Gender is required.';
+                isValid = false;
+            }
+
+                   if (isValid) {
+                alert('Form is valid and ready to be submitted!');
+              
+            }
+        });
+    </script>
+</body>
+</html>
